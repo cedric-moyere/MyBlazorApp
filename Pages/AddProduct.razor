@@ -1,0 +1,87 @@
+﻿@page "/BuyProduct/{Id}"
+@using MyBlazorApp.Data
+@inject ProductService productService
+@inject SaleService saleService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@if (product is null)
+{
+    <p><em>Loading... !</em></p>
+}
+else
+{
+    <h2>@product?.Name</h2>
+    <hr />
+
+    <EditForm EditContext="editContext" OnValidSubmit="@Buy">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label class="form-label">Quantity</label>
+            <InputNumber @bind-Value="sale.Quantity" class="form-control" />
+            <ValidationMessage For="() => sale.Quantity" class="text-danger d-block" />
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Buy" />
+                    <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    EditContext editContext;
+    ValidationMessageStore validationMessages;
+    Sale sale { get; set; } = new();
+    private string userId;
+    Product product;
+    bool valid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        editContext = new(sale);
+        validationMessages = new(editContext);
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        userId = user.FindFirstValue("sub");
+        product = (await productService.GetProductAsync(Int32.Parse(Id)));
+    }
+
+    protected async void Buy()
+    {
+        valid = editContext.Validate();
+        var quantity = editContext.Field(nameof(Sale.Quantity));
+
+        if (sale.Quantity > product.Stock)
+        {
+            validationMessages.Add(quantity, "Insufficient stock");
+        }
+        else
+        {
+            validationMessages.Clear(quantity);
+            valid = editContext.Validate();
+            Sale saleToSend = new()
+                {
+                    Date = DateTime.Now,
+                    ProductId = product.ProductId,
+                    Quantity = sale.Quantity,
+                    UserId = 1
+                };
+            var x = await saleService.AddSaleAsync(saleToSend);
+
+            NavigationManager.NavigateTo("Products");
+        }
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Products");
+    }
+}

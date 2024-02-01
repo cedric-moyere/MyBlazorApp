@@ -1,0 +1,46 @@
+﻿@page "/Admin"
+@using MyBlazorApp.Data
+@inject AdminService adminService
+
+<h1>Dashboard</h1>
+@if (sales is null)
+{
+    <p><em>Loading... !</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Lastname</th>
+                <th>FirstName</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sale in sales)
+            {
+                <tr>
+                    <td>@sale.User.LastName</td>
+                    <td>@sale.User.FirstName</td>
+                    <td>@sale.User.Email</td>
+                    <td>@sale.Product.Name</td>
+                    <td>@sale.Product.Price</td>
+                    <td>@sale.Date</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    IEnumerable<Sale> sales;
+    protected override async Task OnInitializedAsync()
+    {
+        sales = (await adminService.GetSalesWithDetails()).OrderByDescending(s => s.Date);
+    }
+}

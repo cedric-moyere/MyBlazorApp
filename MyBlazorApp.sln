@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlazorApp", "MyBlazorApp.csproj", "{FBC55057-CB10-4A73-9041-F483CE2454E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{F0CF829F-8BD0-47C8-87DD-2330B748CA0B}"
+	ProjectSection(SolutionItems) = preProject
+		Init_DB.sql = Init_DB.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBC55057-CB10-4A73-9041-F483CE2454E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC55057-CB10-4A73-9041-F483CE2454E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC55057-CB10-4A73-9041-F483CE2454E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC55057-CB10-4A73-9041-F483CE2454E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3063D5D2-D50F-4F9E-82A7-3553374E7BFA}
+	EndGlobalSection
+EndGlobal
