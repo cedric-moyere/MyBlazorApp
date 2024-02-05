@@ -5,7 +5,7 @@ namespace MyBlazorApp.Data
     public class Product
     {
         [Key]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
 
         public string Name { get; set; }
 

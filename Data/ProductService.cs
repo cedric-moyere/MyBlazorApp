@@ -16,7 +16,7 @@ namespace MyBlazorApp.Data
             return await _applicationDbContext.Products.ToListAsync();
         }
 
-        public async Task<Product> GetProductAsync(int Id)
+        public async Task<Product> GetProductAsync(string Id)
         {
             Product product = await _applicationDbContext.Products.FirstOrDefaultAsync(c => c.ProductId.Equals(Id));
             return product;

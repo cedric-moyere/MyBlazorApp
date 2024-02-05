@@ -12,6 +12,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Price</th>
             </tr>
@@ -20,13 +21,13 @@ else
             @foreach (var prod in products)
             {
                 <tr>
-                    <td>@prod.ProductId</td>
-                    <td>@prod.Name</td>
                     <td>
                         <a class="nav-link" href="BuyProduct/@prod.ProductId">
-                            <span class="oi oi-pencil" aria-hidden="true">Select</span>
+                            <span class="oi oi-basket" aria-hidden="true" />
                         </a>
                     </td>
+                    <td>@prod.Name</td>
+                    <td>@prod.Price</td>
                 </tr>
             }
         </tbody>

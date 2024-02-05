@@ -7,14 +7,14 @@
 
 @if (product is null)
 {
-    <p><em>Loading... !</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
     <h2>@product?.Name</h2>
     <hr />
 
-    <EditForm EditContext="editContext" OnValidSubmit="@Buy">
+    <EditForm EditContext="editContext" OnSubmit="@Buy">
         <DataAnnotationsValidator />
         <div class="form-group">
             <label class="form-label">Quantity</label>
@@ -39,7 +39,7 @@ else
     EditContext editContext;
     ValidationMessageStore validationMessages;
     Sale sale { get; set; } = new();
-    private string userId;
+    string UserId;
     Product product;
     bool valid;
 
@@ -50,14 +50,15 @@ else
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        userId = user.FindFirstValue("sub");
-        product = (await productService.GetProductAsync(Int32.Parse(Id)));
+        UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        product = (await productService.GetProductAsync(Id));
     }
 
     protected async void Buy()
     {
-        valid = editContext.Validate();
         var quantity = editContext.Field(nameof(Sale.Quantity));
+        validationMessages.Clear(quantity);
+        valid = editContext.Validate();
 
         if (sale.Quantity > product.Stock)
         {
@@ -69,10 +70,11 @@ else
             valid = editContext.Validate();
             Sale saleToSend = new()
                 {
+                    SaleId = Guid.NewGuid().ToString(),
                     Date = DateTime.Now,
                     ProductId = product.ProductId,
                     Quantity = sale.Quantity,
-                    UserId = 1
+                    UserId = UserId
                 };
             var x = await saleService.AddSaleAsync(saleToSend);
 

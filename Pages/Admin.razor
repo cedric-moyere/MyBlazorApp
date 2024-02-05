@@ -12,8 +12,7 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Lastname</th>
-                <th>FirstName</th>
+                <th>UserName</th>
                 <th>Email</th>
                 <th>Product</th>
                 <th>Price</th>
@@ -23,12 +22,12 @@ else
         <tbody>
             @foreach (var sale in sales)
             {
+                var price = sale.Product.Price * sale.Quantity;
                 <tr>
-                    <td>@sale.User.LastName</td>
-                    <td>@sale.User.FirstName</td>
+                    <td>@sale.User.UserName</td>
                     <td>@sale.User.Email</td>
                     <td>@sale.Product.Name</td>
-                    <td>@sale.Product.Price</td>
+                    <td>@price</td>
                     <td>@sale.Date</td>
                 </tr>
             }
